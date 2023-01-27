@@ -8,10 +8,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
-
-app.get("/", (req, res) => {
-  res.send("we did it!");
-});
+const masterRouter = require("./controllers");
+app.use(masterRouter);
 
 app.listen(PORT, () => {
   console.log(`Listening at http://localhost:${PORT}`);
