@@ -10,4 +10,7 @@ router.get("/notes", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/notes.html"));
 });
 
+const apiRoutes = require("./apiRoutes");
+router.use("/api", apiRoutes);
+
 module.exports = router;
