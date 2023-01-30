@@ -3,15 +3,23 @@ const router = express.Router();
 const path = require("path");
 const util = require("util");
 const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
 const promWrite = util.promisify(fs.writeFile);
 const promRead = util.promisify(fs.readFile);
 
-router.get("/notes", (req, res) =>
-  res.send("this is where we need to send notes back to js, see line 28")
-);
+router.get("/notes", (req, res) => {
+  res.sendFile(path.join(__dirname, "../db/db.json"));
+});
 
 router.post("/notes", async (req, res) => {
-  const noteReceived = req.body;
+  const { title, text } = req.body;
+  let id = uuidv4();
+  console.log(title, text);
+  const newNoteObj = {
+    id: id,
+    title: title,
+    text: text,
+  };
   const notes = await promRead("./db/db.json", "utf8", (err, data) => {
     if (err) {
       res.send("err in reading file");
@@ -19,17 +27,15 @@ router.post("/notes", async (req, res) => {
     } else {
       console.log(data);
       let newArr = JSON.parse(data);
-      newArr.push(req.body);
+      newArr.push(newNoteObj);
       promWrite("./db/db.json", JSON.stringify(newArr, null, 4), (err) =>
         err ? console.log(err) : res.send("updated")
       );
-      return;
+      res.send("Updated");
     }
   });
 
-  res.send(
-    "need to write to ../db.json here, check the req.body when receiving."
-  );
+  // res.send("Data updated.");
 });
 
 router.delete("/notes/:id", (req, res) => {
