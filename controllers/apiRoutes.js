@@ -38,10 +38,18 @@ router.post("/notes", async (req, res) => {
   // res.send("Data updated.");
 });
 
-router.delete("/notes/:id", (req, res) => {
-  res.send(
-    "depending on id of notes, we need to loop through array of objects in ../db.json to remove"
-  );
+router.delete("/notes/:id", async (req, res) => {
+  let { id } = req.body;
+  const read = await promRead("./db/db.json", "utf-8", (err, data) => {
+    if (err) {
+      res.send("err in reading file");
+      throw err;
+    } else {
+      let savedData = JSON.parse(data);
+      console.log(savedData[0]);
+      res.send("we in the else");
+    }
+  });
 });
 
 module.exports = router;
