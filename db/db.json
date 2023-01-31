@@ -1,12 +1,12 @@
 [
     {
-        "id":"1234",
-        "title": "Test Title",
-        "text": "Test text"
+        "id": "718f7994-ab38-4eca-9127-2fe00a7a4b5f",
+        "title": "Test Note",
+        "text": "I am testing my notes"
     },
     {
-        "id": "5c34cd66-1a1d-4970-895f-34077b943cfe",
-        "title": "a",
-        "text": "b"
+        "id": "60ba09aa-fed6-42d5-9794-72de641f472f",
+        "title": "Yet Another Test ",
+        "text": "This is another test note."
     }
 ]
