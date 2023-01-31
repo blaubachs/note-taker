@@ -39,15 +39,26 @@ router.post("/notes", async (req, res) => {
 });
 
 router.delete("/notes/:id", async (req, res) => {
-  let { id } = req.body;
   const read = await promRead("./db/db.json", "utf-8", (err, data) => {
     if (err) {
       res.send("err in reading file");
       throw err;
     } else {
       let savedData = JSON.parse(data);
-      console.log(savedData[0]);
-      res.send("we in the else");
+      let newData = savedData.filter((noteObj) => {
+        if (noteObj.id == req.params.id) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+      promWrite("./db/db.json", JSON.stringify(newData, null, 4), (err) => {
+        if (err) {
+          res.send("error in saving file");
+        } else {
+          res.send("updated");
+        }
+      });
     }
   });
 });
